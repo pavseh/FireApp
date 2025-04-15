@@ -36,23 +36,51 @@
 
 <script>
     $(document).ready(function() {
-        // Initialize Leaflet map
         var map = L.map('mapExample').setView([9.7407, 118.7314], 8);
         
-        // Add tile layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // Add fire station markers
+        // Create custom icons
+        var stationIcon = L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34]
+        });
+
+        var incidentIcon = L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34]
+        });
+
+        // Add fire stations
         var fireStations = {{ fire_stations|safe }};
-        
         fireStations.forEach(function(station) {
-            var marker = L.marker([station.lat, station.lng])
+            var marker = L.marker([station.lat, station.lng], {icon: stationIcon})
                 .addTo(map)
                 .bindPopup(
                     '<strong>' + station.name + '</strong><br>' +
-                    'Address: ' + station.address
+                    'Address: ' + station.address + '<br>' +
+                    'Type: Fire Station'
+                );
+        });
+
+        // Add fire incidents
+        var fireIncidents = {{ fire_incidents|safe }};
+        fireIncidents.forEach(function(incident) {
+            var marker = L.marker([incident.lat, incident.lng], {icon: incidentIcon})
+                .addTo(map)
+                .bindPopup(
+                    '<strong>' + incident.name + '</strong><br>' +
+                    'Address: ' + incident.address + '<br>' +
+                    'Date: ' + incident.date + '<br>' +
+                    'Status: ' + incident.status + '<br>' +
+                    'Severity: ' + incident.severity + '<br>' +
+                    'Type: Fire Incident'
                 );
         });
 

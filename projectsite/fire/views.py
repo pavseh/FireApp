@@ -23,13 +23,13 @@ def map_station(request):
     return render(request, 'map_station.html', context)
 
 def jqvmap_view(request):
-    # Sample fire station data for Palawan
     fire_stations = [
         {
             'name': 'Puerto Princesa Fire Station',
             'lat': 9.7407,
             'lng': 118.7314,
-            'address': 'Rizal Avenue, Puerto Princesa City'
+            'address': 'Rizal Avenue, Puerto Princesa City',
+            'type': 'station'
         },
         {
             'name': 'El Nido Fire Station',
@@ -51,4 +51,31 @@ def jqvmap_view(request):
         }
     ]
     
-    return render(request, 'jqvmap.html', {'fire_stations': json.dumps(fire_stations)})
+    # Add fire incidents data
+    fire_incidents = [
+        {
+            'name': 'Residential Fire',
+            'lat': 9.7500,
+            'lng': 118.7400,
+            'address': 'San Pedro, Puerto Princesa City',
+            'type': 'incident',
+            'date': '2024-01-15',
+            'status': 'Resolved',
+            'severity': 'Medium'
+        },
+        {
+            'name': 'Commercial Building Fire',
+            'lat': 11.1800,
+            'lng': 119.3900,
+            'address': 'El Nido Town Proper',
+            'type': 'incident',
+            'date': '2024-01-20',
+            'status': 'Active',
+            'severity': 'High'
+        }
+    ]
+    
+    return render(request, 'jqvmap.html', {
+        'fire_stations': json.dumps(fire_stations),
+        'fire_incidents': json.dumps(fire_incidents)
+    })
