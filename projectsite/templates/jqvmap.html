@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="page-inner">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Palawan Fire Incidents Map</h4>
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <select class="form-control" id="municipalityFilter">
+                                <option value="all">All Municipalities</option>
+                                <option value="puerto-princesa">Puerto Princesa</option>
+                                <option value="el-nido">El Nido</option>
+                                <option value="coron">Coron</option>
+                                <option value="brookes-point">Brooke's Point</option>
+                                <option value="roxas">Roxas</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="mapExample" style="height: 600px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load required libraries -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Initialize Leaflet map
+        var map = L.map('mapExample').setView([9.7407, 118.7314], 8);
+        
+        // Add tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add fire station markers
+        var fireStations = {{ fire_stations|safe }};
+        
+        fireStations.forEach(function(station) {
+            var marker = L.marker([station.lat, station.lng])
+                .addTo(map)
+                .bindPopup(
+                    '<strong>' + station.name + '</strong><br>' +
+                    'Address: ' + station.address
+                );
+        });
+
+        // Handle municipality filter
+        // Update the municipality filter handler
+        $('#municipalityFilter').on('change', function() {
+            const municipality = $(this).val().toLowerCase();
+            
+            // Define coordinates for each municipality
+            const coordinates = {
+                'puerto-princesa': [9.7407, 118.7314],
+                'el-nido': [11.1927, 119.3859],
+                'coron': [11.9986, 120.2043],
+                'brookes-point': [8.7814, 117.8340],
+                'roxas': [10.3157, 119.3359]
+            };
+
+            if (municipality !== 'all') {
+                if (coordinates[municipality]) {
+                    map.setView(coordinates[municipality], 13);
+                }
+            } else {
+                // Reset to full Palawan view
+                map.setView([9.7407, 118.7314], 8);
+            }
+        });
+    });
+</script>
+{% endblock %}
