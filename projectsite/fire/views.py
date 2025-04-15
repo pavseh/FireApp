@@ -35,19 +35,29 @@ def jqvmap_view(request):
             'name': 'El Nido Fire Station',
             'lat': 11.1927,
             'lng': 119.3859,
-            'address': 'Balinsasayaw Road, El Nido'
+            'address': 'Balinsasayaw Road, El Nido',
+            'type': 'station'
         },
         {
             'name': 'Coron Fire Station',
             'lat': 11.9986,
             'lng': 120.2043,
-            'address': 'National Highway, Coron'
+            'address': 'National Highway, Coron',
+            'type': 'station'
         },
         {
             'name': "Brooke's Point Fire Station",
             'lat': 8.7814,
             'lng': 117.8340,
-            'address': 'Municipal Compound, Brookes Point'
+            'address': 'Municipal Compound, Brookes Point',
+            'type': 'station'
+        },
+        {
+            'name': 'Roxas Fire Station',
+            'lat': 10.3157,
+            'lng': 119.3359,
+            'address': 'Municipal Fire Station, Roxas',
+            'type': 'station'
         }
     ]
     
