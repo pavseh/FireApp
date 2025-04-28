@@ -6,6 +6,17 @@ from .models import FireStation
 class HomePageView(TemplateView):
     template_name = 'home.html'
 
+class ChartView(TemplateView):
+    template_name = 'chart.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add any additional context data for your chart here
+        return context
+
+    def get_queryset(self, *args, **kwargs):
+        pass
+
 def map_station(request):
     fireStations = FireStation.objects.values('name', 'latitude', 'longitude')
     
