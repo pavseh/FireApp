@@ -2,7 +2,8 @@
 {% load static %}
 
 {% block content %}
-<div class="page-title">Charts.js</div>
+<div class="page-inner">
+<h4 class="page-title">Charts.js</h4>
 <div class="row">
     <!-- Line Chart -->
     <div class="col-md-6">
@@ -301,51 +302,6 @@
         });
     });
 </script>
-
-<div class="page-inner">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Fire Incidents Analytics</div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container">
-                        <canvas id="multipleLineChart"></canvas>
-                    </div>
-                    <div id="myChartLegend"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Traffic Statistics</div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container">
-                        <canvas id="multipleBarChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">User Statistics with Gradient</div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container">
-                        <canvas id="htmlLegendsChart"></canvas>
-                    </div>
-                    <div id="myChartLegend"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}
 
 {% block chart %}
