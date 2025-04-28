@@ -18,6 +18,13 @@ class Locations(BaseModel):
     address = models.CharField(max_length=150)
     city = models.CharField(max_length=150)  # can be in separate table
     country = models.CharField(max_length=150)  # can be in separate table
+    
+    class Meta:
+        verbose_name_plural = "Locations"
+        ordering = ['name']
+    
+    def __str__(self):
+        return f"{self.name} - {self.city}, {self.country}"
 
 
 class Incident(BaseModel):
@@ -55,14 +62,37 @@ class Firefighters(BaseModel):
     name = models.CharField(max_length=150)
     rank = models.CharField(max_length=150)
     experience_level = models.CharField(max_length=150)
-    station = models.CharField(
-        max_length=45, null=True, blank=True, choices=XP_CHOICES)
+    # Change station field to ForeignKey instead of CharField
+    station = models.ForeignKey(
+        FireStation,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+    
+    class Meta:
+        verbose_name_plural = "Firefighters"
+        ordering = ['rank', 'name']
+    
+    def __str__(self):
+        return f"{self.name} - {self.rank}"
 
 
 class FireTruck(BaseModel):
     truck_number = models.CharField(max_length=150)
     model = models.CharField(max_length=150)
-    capacity = models.CharField(max_length=150)  # water
+    # Change capacity to DecimalField for better data handling
+    capacity = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        help_text="Water capacity in liters"
+    )
+    
+    class Meta:
+        ordering = ['truck_number']
+    
+    def __str__(self):
+        return f"Truck {self.truck_number} - {self.model}"
     station = models.ForeignKey(FireStation, on_delete=models.CASCADE)
 
 
