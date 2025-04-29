@@ -375,65 +375,75 @@
     }
     loadChartData();
 
-var barChart = document.getElementById("barChart").getContext("2d"),
-doughnutChart = document.getElementById("doughnutChart").getContext("2d"),
-htmlLegendsChart = document.getElementById("htmlLegendsChart").getContext("2d");
-
-var myBarChart = new Chart(barChart, {
-  type: "bar",
-  data: {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov","Dec"],
-    datasets: [
-      {
-        label: "Sales",
-        backgroundColor: "rgb(23, 125, 255)",
-        borderColor: "rgb(23, 125, 255)",
-        data: [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4],
+// Bar Chart (LIVE DATA)
+fetch("/chart/barChart/")
+  .then((response) => response.json())
+  .then((data) => {
+    var barChart = document.getElementById("barChart").getContext("2d");
+    new Chart(barChart, {
+      type: "bar",
+      data: {
+        labels: data.labels,
+        datasets: [
+          {
+            label: data.label,
+            backgroundColor: "rgb(23, 125, 255)",
+            borderColor: "rgb(23, 125, 255)",
+            data: data.values,
+          },
+        ],
       },
-    ],
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+      },
+    });
+  })
+  .catch((error) => console.error("Error:", error));
+
+// Doughnut Chart (LIVE DATA)
+fetch("/chart/doughnutChart/")
+  .then((response) => response.json())
+  .then((data) => {
+    var doughnutChart = document.getElementById("doughnutChart").getContext("2d");
+    new Chart(doughnutChart, {
+      type: "doughnut",
+      data: {
+        datasets: [
+          {
+            data: data.values,
+            backgroundColor: ["#f3545d", "#fdaf4b", "#1d7af3"],
+          },
+        ],
+        labels: data.labels,
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          position: "bottom",
+        },
+        layout: {
+          padding: {
+            left: 20,
+            right: 20,
+            top: 20,
+            bottom: 20,
           },
         },
-      ],
-    },
-  },
-});
-
-var myDoughnutChart = new Chart(doughnutChart, {
-  type: "doughnut",
-  data: {
-    datasets: [
-      {
-        data: [10, 20, 30],
-        backgroundColor: ["#f3545d", "#fdaf4b", "#1d7af3"],
       },
-    ],
-    labels: ["Red", "Yellow", "Blue"],
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    legend: {
-      position: "bottom",
-    },
-    layout: 
-    {
-      padding: {
-        left: 20,
-        right: 20,
-        top: 20,
-        bottom: 20,},
-      },
-    },
-  });
+    });
+  })
+  .catch((error) => console.error("Error:", error));
 
 // Chart with HTML Legends
 var htmlLegendsChartConfig = {

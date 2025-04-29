@@ -234,3 +234,35 @@ def MultilineIncidentTop3Country(request):
 #         result[level] = dict(sorted(result[level].items()))
     
 #     return JsonResponse(result)
+
+
+def BarChartData(request):
+    # Example: Number of incidents per month for the current year
+    current_year = datetime.now().year
+    incidents = Incident.objects.filter(date_time__year=current_year)
+    data = incidents.annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).order_by('month')
+    # Prepare data for Chart.js
+    labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    values = [0] * 12
+    for entry in data:
+        month_idx = entry['month'] - 1
+        values[month_idx] = entry['count']
+    return JsonResponse({
+        "labels": labels,
+        "values": values,
+        "label": "Incidents"
+    })
+
+def DoughnutChartData(request):
+    # Ensure all three severity levels are always present
+    severity_levels = ["Major", "Minor", "Moderate"]
+    counts = {level: 0 for level in severity_levels}
+    data = Incident.objects.values('severity_level').annotate(count=Count('id'))
+    for entry in data:
+        level = entry['severity_level']
+        if level in counts:
+            counts[level] = entry['count']
+    return JsonResponse({
+        "labels": severity_levels,
+        "values": [counts["Major"], counts["Minor"], counts["Moderate"]]
+    })
