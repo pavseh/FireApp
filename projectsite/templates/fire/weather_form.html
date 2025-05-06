@@ -1,0 +1,5 @@
+{% extends 'fire/base_form.html' %}
+
+{% block page_title %}Weather Conditions{% endblock %}
+{% block form_title %}{% if form.instance.pk %}Edit Weather Condition{% else %}Add New Weather Condition{% endif %}{% endblock %}
+{% block cancel_url %}{% url 'weather-list' %}{% endblock %}

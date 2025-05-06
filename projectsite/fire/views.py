@@ -7,6 +7,9 @@ from django.db import connection
 from django.http import JsonResponse
 from django.db.models.functions import ExtractMonth
 from django.db.models import Count
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import Locations, Incident, FireStation, Firefighters, FireTruck, WeatherConditions
 from datetime import datetime
 
 class HomePageView(TemplateView):
@@ -266,3 +269,147 @@ def DoughnutChartData(request):
         "labels": severity_levels,
         "values": [counts["Major"], counts["Minor"], counts["Moderate"]]
     })
+
+# Location Views
+class LocationListView(ListView):
+    model = Locations
+    template_name = 'fire/location_list.html'
+    context_object_name = 'locations'
+
+class LocationCreateView(CreateView):
+    model = Locations
+    template_name = 'fire/location_form.html'
+    fields = ['name', 'latitude', 'longitude', 'address', 'city', 'country']
+    success_url = reverse_lazy('location-list')
+
+class LocationUpdateView(UpdateView):
+    model = Locations
+    template_name = 'fire/location_form.html'
+    fields = ['name', 'latitude', 'longitude', 'address', 'city', 'country']
+    success_url = reverse_lazy('location-list')
+
+class LocationDeleteView(DeleteView):
+    model = Locations
+    template_name = 'fire/location_confirm_delete.html'
+    success_url = reverse_lazy('location-list')
+
+# Similar view classes for Incident
+class IncidentListView(ListView):
+    model = Incident
+    template_name = 'fire/incident_list.html'
+    context_object_name = 'incidents'
+
+# Incident CRUD Views
+class IncidentCreateView(CreateView):
+    model = Incident
+    template_name = 'fire/incident_form.html'
+    fields = ['location', 'date_time', 'severity_level', 'description']
+    success_url = reverse_lazy('incident-list')
+
+class IncidentUpdateView(UpdateView):
+    model = Incident
+    template_name = 'fire/incident_form.html'
+    fields = ['location', 'date_time', 'severity_level', 'description']
+    success_url = reverse_lazy('incident-list')
+
+class IncidentDeleteView(DeleteView):
+    model = Incident
+    template_name = 'fire/incident_confirm_delete.html'
+    success_url = reverse_lazy('incident-list')
+
+# FireStation CRUD Views
+class FireStationListView(ListView):
+    model = FireStation
+    template_name = 'fire/firestation_list.html'
+    context_object_name = 'firestations'
+
+class FireStationCreateView(CreateView):
+    model = FireStation
+    template_name = 'fire/firestation_form.html'
+    fields = ['name', 'address', 'city', 'country']
+    success_url = reverse_lazy('firestation-list')
+
+class FireStationUpdateView(UpdateView):
+    model = FireStation
+    template_name = 'fire/firestation_form.html'
+    fields = ['name', 'address', 'city', 'country']
+    success_url = reverse_lazy('firestation-list')
+
+class FireStationDeleteView(DeleteView):
+    model = FireStation
+    template_name = 'fire/firestation_confirm_delete.html'
+    success_url = reverse_lazy('firestation-list')
+
+# Firefighter CRUD Views
+class FirefighterListView(ListView):
+    model = Firefighters
+    template_name = 'fire/firefighter_list.html'
+    context_object_name = 'firefighters'
+
+class FirefighterCreateView(CreateView):
+    model = Firefighters
+    template_name = 'fire/firefighter_form.html'
+    fields = ['name', 'rank', 'experience_level', 'station']
+    success_url = reverse_lazy('firefighter-list')
+
+class FirefighterUpdateView(UpdateView):
+    model = Firefighters
+    template_name = 'fire/firefighter_form.html'
+    fields = ['name', 'rank', 'experience_level', 'station']
+    success_url = reverse_lazy('firefighter-list')
+
+class FirefighterDeleteView(DeleteView):
+    model = Firefighters
+    template_name = 'fire/firefighter_confirm_delete.html'
+    success_url = reverse_lazy('firefighter-list')
+
+# FireTruck CRUD Views
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import FireTruck
+
+class FireTruckListView(ListView):
+    model = FireTruck
+    template_name = 'fire/firetruck_list.html'
+    context_object_name = 'firetrucks'
+
+class FireTruckCreateView(CreateView):
+    model = FireTruck
+    template_name = 'fire/firetruck_form.html'
+    fields = ['truck_number', 'model', 'capacity', 'station']
+    success_url = reverse_lazy('firetruck-list')
+
+class FireTruckUpdateView(UpdateView):
+    model = FireTruck
+    template_name = 'fire/firetruck_form.html'
+    fields = ['truck_number', 'model', 'capacity', 'station']
+    success_url = reverse_lazy('firetruck-list')
+
+class FireTruckDeleteView(DeleteView):
+    model = FireTruck
+    template_name = 'fire/firetruck_confirm_delete.html'
+    success_url = reverse_lazy('firetruck-list')
+
+# WeatherConditions CRUD Views
+class WeatherCreateView(CreateView):
+    model = WeatherConditions
+    template_name = 'fire/weather_form.html'
+    fields = ['incident', 'temperature', 'humidity', 'wind_speed', 'weather_description']
+    success_url = reverse_lazy('weather-list')
+
+class WeatherUpdateView(UpdateView):
+    model = WeatherConditions
+    template_name = 'fire/weather_form.html'
+    fields = ['incident', 'temperature', 'humidity', 'wind_speed', 'weather_description']
+    success_url = reverse_lazy('weather-list')
+
+class WeatherDeleteView(DeleteView):
+    model = WeatherConditions
+    template_name = 'fire/weather_confirm_delete.html'
+    success_url = reverse_lazy('weather-list')
+
+# Similar view classes for WeatherConditions
+class WeatherListView(ListView):
+    model = WeatherConditions
+    template_name = 'fire/weather_list.html'
+    context_object_name = 'weather_conditions'

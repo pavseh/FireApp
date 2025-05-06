@@ -1,0 +1,39 @@
+{% extends 'fire/base_list.html' %}
+
+{% block page_title %}Fire Trucks{% endblock %}
+{% block card_title %}Fire Truck Management{% endblock %}
+{% block create_url %}{% url 'firetruck-create' %}{% endblock %}
+
+{% block table_content %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Truck Number</th>
+            <th>Model</th>
+            <th>Capacity (L)</th>
+            <th>Station</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for truck in firetrucks %}
+        <tr>
+            <td>{{ truck.truck_number }}</td>
+            <td>{{ truck.model }}</td>
+            <td>{{ truck.capacity }}</td>
+            <td>{{ truck.station }}</td>
+            <td>
+                <div class="form-button-action">
+                    <a href="{% url 'firetruck-update' truck.pk %}" class="btn btn-link btn-primary btn-lg">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="{% url 'firetruck-delete' truck.pk %}" class="btn btn-link btn-danger">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

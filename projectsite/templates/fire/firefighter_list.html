@@ -1,0 +1,39 @@
+{% extends 'fire/base_list.html' %}
+
+{% block page_title %}Firefighters{% endblock %}
+{% block card_title %}Firefighter Management{% endblock %}
+{% block create_url %}{% url 'firefighter-create' %}{% endblock %}
+
+{% block table_content %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Rank</th>
+            <th>Experience Level</th>
+            <th>Station</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for firefighter in firefighters %}
+        <tr>
+            <td>{{ firefighter.name }}</td>
+            <td>{{ firefighter.rank }}</td>
+            <td>{{ firefighter.experience_level }}</td>
+            <td>{{ firefighter.station }}</td>
+            <td>
+                <div class="form-button-action">
+                    <a href="{% url 'firefighter-update' firefighter.pk %}" class="btn btn-link btn-primary btn-lg">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="{% url 'firefighter-delete' firefighter.pk %}" class="btn btn-link btn-danger">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

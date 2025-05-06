@@ -1,0 +1,39 @@
+{% extends 'fire/base_list.html' %}
+
+{% block page_title %}Incidents{% endblock %}
+{% block card_title %}Incident Management{% endblock %}
+{% block create_url %}{% url 'incident-create' %}{% endblock %}
+
+{% block table_content %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Location</th>
+            <th>Date/Time</th>
+            <th>Severity Level</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for incident in incidents %}
+        <tr>
+            <td>{{ incident.location }}</td>
+            <td>{{ incident.date_time }}</td>
+            <td>{{ incident.severity_level }}</td>
+            <td>{{ incident.description }}</td>
+            <td>
+                <div class="form-button-action">
+                    <a href="{% url 'incident-update' incident.pk %}" class="btn btn-link btn-primary btn-lg">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="{% url 'incident-delete' incident.pk %}" class="btn btn-link btn-danger">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

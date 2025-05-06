@@ -1,0 +1,39 @@
+{% extends 'fire/base_list.html' %}
+
+{% block page_title %}Locations{% endblock %}
+{% block card_title %}Location Management{% endblock %}
+{% block create_url %}{% url 'location-create' %}{% endblock %}
+
+{% block table_content %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for location in locations %}
+        <tr>
+            <td>{{ location.name }}</td>
+            <td>{{ location.address }}</td>
+            <td>{{ location.city }}</td>
+            <td>{{ location.country }}</td>
+            <td>
+                <div class="form-button-action">
+                    <a href="{% url 'location-update' location.pk %}" class="btn btn-link btn-primary btn-lg">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="{% url 'location-delete' location.pk %}" class="btn btn-link btn-danger">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

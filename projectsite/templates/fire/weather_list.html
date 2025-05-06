@@ -1,0 +1,41 @@
+{% extends 'fire/base_list.html' %}
+
+{% block page_title %}Weather Conditions{% endblock %}
+{% block card_title %}Weather Condition Management{% endblock %}
+{% block create_url %}{% url 'weather-create' %}{% endblock %}
+
+{% block table_content %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Incident</th>
+            <th>Temperature</th>
+            <th>Humidity</th>
+            <th>Wind Speed</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for weather in weather_conditions %}
+        <tr>
+            <td>{{ weather.incident }}</td>
+            <td>{{ weather.temperature }}°C</td>
+            <td>{{ weather.humidity }}%</td>
+            <td>{{ weather.wind_speed }} km/h</td>
+            <td>{{ weather.weather_description }}</td>
+            <td>
+                <div class="form-button-action">
+                    <a href="{% url 'weather-update' weather.pk %}" class="btn btn-link btn-primary btn-lg">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="{% url 'weather-delete' weather.pk %}" class="btn btn-link btn-danger">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

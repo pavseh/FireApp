@@ -1,0 +1,5 @@
+{% extends 'fire/base_form.html' %}
+
+{% block page_title %}Firefighters{% endblock %}
+{% block form_title %}{% if form.instance.pk %}Edit Firefighter{% else %}Add New Firefighter{% endif %}{% endblock %}
+{% block cancel_url %}{% url 'firefighter-list' %}{% endblock %}

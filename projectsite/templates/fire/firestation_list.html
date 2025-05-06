@@ -1,0 +1,39 @@
+{% extends 'fire/base_list.html' %}
+
+{% block page_title %}Fire Stations{% endblock %}
+{% block card_title %}Fire Station Management{% endblock %}
+{% block create_url %}{% url 'firestation-create' %}{% endblock %}
+
+{% block table_content %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for station in firestations %}
+        <tr>
+            <td>{{ station.name }}</td>
+            <td>{{ station.address }}</td>
+            <td>{{ station.city }}</td>
+            <td>{{ station.country }}</td>
+            <td>
+                <div class="form-button-action">
+                    <a href="{% url 'firestation-update' station.pk %}" class="btn btn-link btn-primary btn-lg">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="{% url 'firestation-delete' station.pk %}" class="btn btn-link btn-danger">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
