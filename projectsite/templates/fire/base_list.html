@@ -11,10 +11,22 @@
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <h4 class="card-title">{% block card_title %}{% endblock %}</h4>
-                        <a href="{% block create_url %}{% endblock %}" class="btn btn-primary btn-round ml-auto">
-                            <i class="fa fa-plus"></i>
-                            Add New
-                        </a>
+                        <div class="ml-auto d-flex align-items-center">
+                            <form class="mr-3" method="get">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request.GET.search }}">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            <a href="{% block create_url %}{% endblock %}" class="btn btn-primary btn-round">
+                                <i class="fa fa-plus"></i>
+                                Add New
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">

@@ -38,6 +38,9 @@ class Incident(BaseModel):
     severity_level = models.CharField(max_length=45, choices=SEVERITY_CHOICES)
     description = models.CharField(max_length=250)
 
+    def __str__(self):
+        return f"{self.severity_level} at {self.location} on {self.date_time.strftime('%Y-%m-%d %H:%M') if self.date_time else 'Unknown date'}"
+
 
 class FireStation(BaseModel):
     name = models.CharField(max_length=150)
@@ -87,19 +90,20 @@ class Firefighters(BaseModel):
 class FireTruck(BaseModel):
     truck_number = models.CharField(max_length=150)
     model = models.CharField(max_length=150)
-    # Change capacity to DecimalField for better data handling
     capacity = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         help_text="Water capacity in liters"
     )
-    
+    station = models.ForeignKey(FireStation, on_delete=models.CASCADE)
+
     class Meta:
         ordering = ['truck_number']
-    
+
     def __str__(self):
         return f"Truck {self.truck_number} - {self.model}"
-    station = models.ForeignKey(FireStation, on_delete=models.CASCADE)
+    def __str__(self):
+        return f"{self.severity_level} at {self.location} on {self.date_time.strftime('%Y-%m-%d %H:%M') if self.date_time else 'Unknown date'}"
 
 
 class WeatherConditions(BaseModel):
